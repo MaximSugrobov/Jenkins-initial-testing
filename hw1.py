@@ -2,17 +2,32 @@ import re
 import socket
 import struct
 import math
-from itertools import product, combinations_with_replacement
+from itertools import combinations_with_replacement, combinations
 
 
 def domain_name(url):
-    return re.search(r'(//|www\.)([^www\.]\D+?)\..*$', url).group(2)
+    split_url = url.split('/')
+    if split_url[0] == 'http:' or split_url[0] == 'https:':
+        full_name = split_url[2].split('.')
+    else:
+        full_name = split_url[0].split('.')
+    if len(full_name) == 2:
+        dom_name = full_name[0]
+    elif len(full_name[0]) > len(full_name[1]):
+        dom_name = full_name[0]
+    else:
+        dom_name = full_name[1]
+    return dom_name
+    # Регулярку я тоже отредактировал
+    # return re.search(r'(https?://|www\.)?(\w{0,3}\.)?([a-z0-9-_]+)(\..+)?', url).group(3)
 
 
 assert domain_name("http://google.com") == "google"
 assert domain_name("http://google.co.jp") == "google"
 assert domain_name("www.xakep.ru") == "xakep"
 assert domain_name("https://youtube.com") == "youtube"
+assert domain_name("http://www.zombie-bites.com") == "zombie-bites"
+assert domain_name("http://ru.some-url.co.org") == "some-url"
 
 
 def int32_to_ip(int32):
@@ -39,13 +54,17 @@ assert zeros(30) == 7
 
 
 def bananas(s):
-    temp_list = []
-    data = product('ban-', repeat=len(s))
+    result = set()
+    banana = 'banana'
+    group_len = len(s) - len(banana)
+    data = combinations(range(len(s)), group_len)
     for elem in data:
-        str_elem = ''.join(elem)
-        temp_list.append(str_elem)
-    result = set([word for word in temp_list if word.replace('-', '') == 'banana'
-                  and all(symbol == '-' or symbol == s[idx] for idx, symbol in enumerate(word))])
+        s_list = list(s)
+        for number in elem:
+            s_list[number] = '-'
+        str_temp = ''.join(s_list)
+        if str_temp.replace('-', '') == banana:
+            result.add(str_temp)
     return result
 
 
