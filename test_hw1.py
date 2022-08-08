@@ -10,7 +10,7 @@ from hw1 import count_find_num
 class TestHomeWorkOneCases(unittest.TestCase):
 
     def test_finding_domain_name(self):
-        self.assertEqual(domain_name("http://google.com"), "google")
+        self.assertEqual(domain_name("http://google.com"), "gogle")
         self.assertEqual(domain_name("http://google.co.jp"), "google")
         self.assertEqual(domain_name("www.xakep.ru"), "xakep")
         self.assertEqual(domain_name("https://youtube.com"), "youtube")
