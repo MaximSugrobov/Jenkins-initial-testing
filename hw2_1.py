@@ -37,7 +37,7 @@ class OptimalRoute:
         return result
 
 
-answer = OptimalRoute(start_point=(0), end_point=(0, 2), address_data=((2, 5), (5, 2), (6, 6), (8, 3)))
+answer = OptimalRoute(start_point=(0, 2), end_point=(0, 2), address_data=((2, 5), (5, 2), (6, 6), (8, 3)))
 print(OptimalRoute.get_optimal_route(answer))
 
 # Testing for another parameters:
